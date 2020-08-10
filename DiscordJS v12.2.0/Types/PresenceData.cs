@@ -1,4 +1,6 @@
-﻿namespace DiscordJS.Data
+﻿using Newtonsoft.Json;
+
+namespace DiscordJS.Data
 {
     /// <summary>
     /// Data resembling a raw Discord presence.
@@ -49,6 +51,12 @@
         /// this users guild nickname (if one is set)
         /// </summary>
         public string nick;
+
+        /// <summary>
+        /// The guild of the presence. Is not given by the api, but may be set when instantiating <see cref="Presence"/>
+        /// </summary>
+        [JsonIgnore]
+        internal Guild guild;
     }
 
     /// <summary>

@@ -54,147 +54,6 @@ namespace DiscordJS
         /// <summary>
         /// Emitted whenever a channel is created.
         /// </summary>
-        /// <param name="channel">The channel that was created</param>
-        public delegate void ChannelCreateEvent(Channel channel);
-
-        /// <summary>
-        /// Emitted whenever a channel is deleted.
-        /// </summary>
-        /// <param name="channel">The channel that was deleted</param>
-        public delegate void ChannelDeleteEvent(Channel channel);
-
-        /// <summary>
-        /// Emitted whenever the pins of a channel are updated. Due to the nature of the WebSocket event, not much information can be provided easily here - you need to manually check the pins yourself.
-        /// </summary>
-        /// <param name="channel">The channel that the pins update occurred in</param>
-        /// <param name="time">The time of the pins update</param>
-        public delegate void ChannelPinsUpdateEvent(Channel channel, Date time);
-
-        /// <summary>
-        /// Emitted whenever a channel is updated - e.g. name change, topic change, channel type change.
-        /// </summary>
-        /// <param name="oldChannel">The channel before the update</param>
-        /// <param name="newChannel">The channel after the update</param>
-        public delegate void ChannelUpdateEvent(Channel oldChannel, Channel newChannel);
-
-        /// <summary>
-        /// Emitted for general debugging information.
-        /// </summary>
-        /// <param name="info">The debug information</param>
-        public delegate void DebugEvent(string info);
-
-        /// <summary>
-        /// Emitted whenever a custom emoji is created in a guild.
-        /// </summary>
-        /// <param name="emoji">The emoji that was created</param>
-        public delegate void EmojiCreateEvent(GuildEmoji emoji);
-
-        /// <summary>
-        /// Emitted whenever a custom emoji is deleted in a guild.
-        /// </summary>
-        /// <param name="emoji">The emoji that was deleted</param>
-        public delegate void EmojiDeleteEvent(GuildEmoji emoji);
-
-        /// <summary>
-        /// Emitted whenever a custom emoji is updated in a guild.
-        /// </summary>
-        /// <param name="oldEmoji">The old emoji</param>
-        /// <param name="newEmoji">The new emoji</param>
-        public delegate void EmojiUpdateEvent(GuildEmoji oldEmoji, GuildEmoji newEmoji);
-
-        /// <summary>
-        /// Emitted when the client encounters an exception.
-        /// </summary>
-        /// <param name="exception">The exception encountered</param>
-        public delegate void ExceptionEvent(Exception exception);
-
-        /// <summary>
-        /// Emitted whenever a member is banned from a guild.
-        /// </summary>
-        /// <param name="guild">The guild that the ban occurred in</param>
-        /// <param name="user">The user that was banned</param>
-        public delegate void GuildBanAddEvent(Guild guild, User user);
-
-        /// <summary>
-        /// Emitted whenever a member is unbanned from a guild.
-        /// </summary>
-        /// <param name="guild">The guild that the unban occurred in</param>
-        /// <param name="user">The user that was unbanned</param>
-        public delegate void GuildBanRemoveEvent(Guild guild, User user);
-
-        /// <summary>
-        /// Emitted whenever the client joins a guild.
-        /// </summary>
-        /// <param name="guild">The created guild</param>
-        public delegate void GuildCreateEvent(Guild guild);
-
-        /// <summary>
-        /// Emitted whenever a guild kicks the client or the guild is deleted/left.
-        /// </summary>
-        /// <param name="guild">The guild that was deleted</param>
-        public delegate void GuildDeleteEvent(Guild guild);
-
-        /// <summary>
-        /// Emitted whenever a guild integration is updated
-        /// </summary>
-        /// <param name="guild">The guild whose integrations were updated</param>
-        public delegate void GuildIntegrationsUpdateEvent(Guild guild);
-
-        /// <summary>
-        /// Emitted whenever a member leaves a guild, or is kicked.
-        /// </summary>
-        /// <param name="member">The member that has joined a guild</param>
-        public delegate void GuildMemberRemoveEvent(GuildMember member);
-
-        /// <summary>
-        /// Emitted whenever a chunk of guild members is received (all members come from the same guild).
-        /// </summary>
-        /// <param name="members">The members in the chunk</param>
-        /// <param name="guild">The guild related to the member chunk</param>
-        public delegate void GuildMembersChunkEvent(Collection<Snowflake, GuildMember> members, Guild guild);
-
-        /// <summary>
-        /// Emitted whenever a message is created.
-        /// </summary>
-        /// <param name="message">The created message</param>
-        public delegate void MessageEvent(Message message);
-
-        /// <summary>
-        /// Emitted whenever a user starts typing in a channel.
-        /// </summary>
-        /// <param name="channel">The channel the user started typing in</param>
-        /// <param name="user">The user that started typing</param>
-        public delegate void TypingStartEvent(Channel channel, User user);
-
-        /// <summary>
-        /// Emitted whenever a user's details (e.g. username) are changed.
-        /// </summary>
-        /// <param name="oldUser">The user before the update</param>
-        /// <param name="newUser">The user after the update</param>
-        public delegate void UserUpdateEvent(User oldUser, User newUser);
-
-        /// <summary>
-        /// Emitted whenever a member changes voice state - e.g. joins/leaves a channel, mutes/unmutes.
-        /// </summary>
-        /// <param name="oldState">The voice state before the update</param>
-        /// <param name="newState">The voice state after the update</param>
-        public delegate void VoiceStateUpdateEvent(VoiceState oldState, VoiceState newState);
-
-        /// <summary>
-        /// Emitted for general warnings.
-        /// </summary>
-        /// <param name="info">The warning</param>
-        public delegate void WarnEvent(string info);
-
-        /// <summary>
-        /// Emitted whenever a guild text channel has its webhooks changed.
-        /// </summary>
-        /// <param name="channel">The channel that had a webhook update</param>
-        public delegate void WebhookUpdateEvent(TextChannel channel);
-
-        /// <summary>
-        /// Emitted whenever a channel is created.
-        /// </summary>
         public event ChannelCreateEvent ChannelCreate;
 
         /// <summary>
@@ -263,6 +122,11 @@ namespace DiscordJS
         public event GuildIntegrationsUpdateEvent GuildIntegrationsUpdate;
 
         /// <summary>
+        /// Emitted whenever a user joins a guild.
+        /// </summary>
+        public event GuildMemberAddEvent GuildMemberAdd;
+
+        /// <summary>
         /// Emitted whenever a member leaves a guild, or is kicked.
         /// </summary>
         public event GuildMemberRemoveEvent GuildMemberRemove;
@@ -271,6 +135,142 @@ namespace DiscordJS
         /// Emitted whenever a chunk of guild members is received (all members come from the same guild).
         /// </summary>
         public event GuildMembersChunkEvent GuildMembersChunk;
+
+        /// <summary>
+        /// Emitted once a guild member changes speaking state.
+        /// </summary>
+        public event GuildMemberSpeakingEvent GuildMembersSpeaking;
+
+        /// <summary>
+        /// Emitted whenever a guild member changes - i.e. new role, removed role, nickname.
+        /// </summary>
+        public event GuildMemberUpdateEvent GuildMemberUpdate;
+
+        /// <summary>
+        /// Emitted whenever a guild becomes unavailable, likely due to a server outage.
+        /// </summary>
+        public event GuildUnavailableEvent GuildUnavailable;
+
+        /// <summary>
+        /// Emitted whenever a guild is updated - e.g. name change.
+        /// </summary>
+        public event GuildUpdateEvent GuildUpdate;
+
+        /// <summary>
+        /// Emitted when the client's session becomes invalidated. You are expected to handle closing the process gracefully and preventing a boot loop if you are listening to this event.
+        /// </summary>
+        public event InvalidatedEvent Invalidated;
+
+        /// <summary>
+        /// Emitted when an invite is created.
+        /// <br/>
+        /// <br/>
+        /// <info><b>This event only triggers if the client has <c>MANAGE_GUILD</c> permissions for the guild, or <c>MANAGE_CHANNEL</c> permissions for the channel.</b></info>
+        /// </summary>
+        public event InviteCreateEvent InviteCreate;
+
+        /// <summary>
+        /// Emitted when an invite is deleted.
+        /// <br/>
+        /// <br/>
+        /// <info><b>This event only triggers if the client has <c>MANAGE_GUILD</c> permissions for the guild, or <c>MANAGE_CHANNEL</c> permissions for the channel.</b></info>
+        /// </summary>
+        public event InviteDeleteEvent InviteDelete;
+
+        /// <summary>
+        /// Emitted whenever a message is created.
+        /// </summary>
+        public event MessageEvent Message;
+
+        /// <summary>
+        /// Emitted whenever a message is deleted.
+        /// </summary>
+        public event MessageDeleteEvent MessageDelete;
+
+        /// <summary>
+        /// Emitted whenever messages are deleted in bulk.
+        /// </summary>
+        public event MessageDeleteBulkEvent MessageDeleteBulk;
+
+        /// <summary>
+        /// Emitted whenever a reaction is added to a cached message.
+        /// </summary>
+        public event MessageReactionAddEvent MessageReactionAdd;
+
+        /// <summary>
+        /// Emitted whenever a reaction is removed from a cached message.
+        /// </summary>
+        public event MessageReactionRemoveEvent MessageReactionRemove;
+
+        /// <summary>
+        /// Emitted whenever all reactions are removed from a cached message.
+        /// </summary>
+        public event MessageReactionRemoveAllEvent MessageReactionRemoveAll;
+
+        /// <summary>
+        /// Emitted when a bot removes an emoji reaction from a cached message.
+        /// </summary>
+        public event MessageReactionRemoveEmojiEvent MessageReactionRemoveEmoji;
+
+        /// <summary>
+        /// Emitted whenever a message is updated - e.g. embed or content change.
+        /// </summary>
+        public event MessageUpdateEvent MessageUpdate;
+
+        /// <summary>
+        /// Emitted whenever a guild member's presence (e.g. status, activity) is changed.
+        /// </summary>
+        public event PresenceUpdateEvent PresenceUpdate;
+
+        /// <summary>
+        /// Emitted when the client hits a rate limit while making a request
+        /// </summary>
+        public event RateLimitEvent RateLimit;
+
+        /// <summary>
+        /// Emitted when the client becomes ready to start working.
+        /// </summary>
+        public event ReadyEvent Ready;
+
+        /// <summary>
+        /// Emitted whenever a role is created.
+        /// </summary>
+        public event RoleCreateEvent RoleCreate;
+
+        /// <summary>
+        /// Emitted whenever a guild role is deleted.
+        /// </summary>
+        public event RoleDeleteEvent RoleDelete;
+
+        /// <summary>
+        /// Emitted whenever a guild role is updated.
+        /// </summary>
+        public event RoleUpdateEvent RoleUpdate;
+
+        /// <summary>
+        /// Emitted when a shard's WebSocket disconnects and will no longer reconnect.
+        /// </summary>
+        public event ShardDisconnectEvent ShardDisconnect;
+
+        /// <summary>
+        /// Emitted whenever a shard's WebSocket encounters a connection exception.
+        /// </summary>
+        public event ShardExceptionEvent ShardException;
+
+        /// <summary>
+        /// Emitted when a shard turns ready.
+        /// </summary>
+        public event ShardReadyEvent ShardReady;
+
+        /// <summary>
+        /// Emitted when a shard is attempting to reconnect or re-identify.
+        /// </summary>
+        public event ShardReconnectingEvent ShardReconnecting;
+
+        /// <summary>
+        /// Emitted when a shard resumes successfully.
+        /// </summary>
+        public event ShardResumeEvent ShardResume;
 
         /// <summary>
         /// Emitted whenever a user starts typing in a channel.

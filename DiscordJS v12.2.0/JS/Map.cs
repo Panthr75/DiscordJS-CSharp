@@ -75,6 +75,12 @@ namespace JavaScript
         }
 
         /// <summary>
+        /// Gets the entry iterator for this map
+        /// </summary>
+        /// <returns></returns>
+        public EntryIterator Entries() => new EntryIterator(this);
+
+        /// <summary>
         /// Loops through every key-value pair in the map, and runs the given callback function, providing the map, the key, and the value
         /// </summary>
         /// <param name="callbackfn">The callback function to run</param>
@@ -187,54 +193,54 @@ namespace JavaScript
             return this;
         }
 
-        public Array<K> Keys()
-        {
-            Array<K> result = new Array<K>();
-            ForEach((_, key) =>
-            {
-                result.Push(key);
-            });
-            return result;
-        }
+        /// <summary>
+        /// Gets the key iterator for this object
+        /// </summary>
+        /// <returns></returns>
+        public KeyIterator Keys() => new KeyIterator(this);
 
-        public Array<V> Values()
-        {
-            Array<V> result = new Array<V>();
-            ForEach((value) =>
-            {
-                result.Push(value);
-            });
-            return result;
-        }
+        /// <summary>
+        /// Gets the value iterator for this object
+        /// </summary>
+        /// <returns></returns>
+        public ValueIterator Values() => new ValueIterator(this);
 
         /// <summary>
         /// The size of this map
         /// </summary>
         public int Size => values.Count;
 
-        public Enumerator GetEnumerator() => new Enumerator(this);
+        /// <summary>
+        /// Gets the entry iterator for this map
+        /// </summary>
+        /// <returns></returns>
+        public EntryIterator GetEnumerator() => new EntryIterator(this);
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         IEnumerator<Item> IEnumerable<Item>.GetEnumerator() => GetEnumerator();
 
+        /// <summary>
+        /// Represents the value iterator for this map
+        /// </summary>
         [Serializable]
-        public sealed class ValueEnumerator : Iterator<V>
+        public sealed class ValueIterator : Iterator<V>
         {
             private Map<K, V> map;
             private int index;
 
-            internal ValueEnumerator(Map<K, V> map) : base()
+            internal ValueIterator(Map<K, V> map) : base()
             {
                 this.map = map;
                 index = 0;
             }
 
+            /// <inheritdoc/>
             protected override IteratorResult<V> GetNext()
             {
                 while (index < map.Size)
                 {
-                    if (map.values[index].GetHashCode() >= 0)
+                    var entry = map.values[index];
+                    if (entry != null && entry.GetHashCode() >= 0)
                     {
-                        var entry = map.values[index];
                         index++;
                         return new IteratorResult<V>(entry.Value, false);
                     }
@@ -245,6 +251,7 @@ namespace JavaScript
                 return new IteratorResult<V>(default, true);
             }
 
+            /// <inheritdoc/>
             protected override void Reset()
             {
                 index = 0;
@@ -252,25 +259,70 @@ namespace JavaScript
             }
         }
 
+        /// <summary>
+        /// Represents the key iterator for this map
+        /// </summary>
         [Serializable]
-        public sealed class Enumerator : Iterator<Item>, IEnumerator<KeyValuePair<K, V>>
+        public sealed class KeyIterator : Iterator<K>
         {
             private Map<K, V> map;
             private int index;
 
-            internal Enumerator(Map<K, V> map) : base(new Item())
+            internal KeyIterator(Map<K, V> map) : base()
             {
                 this.map = map;
                 index = 0;
             }
 
+            /// <inheritdoc/>
+            protected override IteratorResult<K> GetNext()
+            {
+                while (index < map.Size)
+                {
+                    var entry = map.values[index];
+                    if (entry != null && entry.GetHashCode() >= 0)
+                    {
+                        index++;
+                        return new IteratorResult<K>(entry.Key, false);
+                    }
+                    index++;
+                }
+
+                index = map.Size + 1;
+                return new IteratorResult<K>(default, true);
+            }
+
+            /// <inheritdoc/>
+            protected override void Reset()
+            {
+                index = 0;
+                base.Reset();
+            }
+        }
+
+        /// <summary>
+        /// Represents the entry iterator for this map
+        /// </summary>
+        [Serializable]
+        public sealed class EntryIterator : Iterator<Item>, IEnumerator<KeyValuePair<K, V>>
+        {
+            private Map<K, V> map;
+            private int index;
+
+            internal EntryIterator(Map<K, V> map) : base(new Item())
+            {
+                this.map = map;
+                index = 0;
+            }
+
+            /// <inheritdoc/>
             protected override IteratorResult<Item> GetNext()
             {
                 while (index < map.Size)
                 {
-                    if (map.values[index].GetHashCode() >= 0)
+                    var entry = map.values[index];
+                    if (entry != null && entry.GetHashCode() >= 0)
                     {
-                        var entry = map.values[index];
                         index++;
                         return new IteratorResult<Item>(new Item(entry.Key, entry.Value), false);
                     }
@@ -281,16 +333,26 @@ namespace JavaScript
                 return new IteratorResult<Item>(null, true);
             }
 
+            /// <inheritdoc/>
             protected override void Reset()
             {
                 index = 0;
                 base.Reset();
             }
 
+            /// <summary>
+            /// The current entry
+            /// </summary>
             public Item Entry => Current;
 
+            /// <summary>
+            /// The key for the current entry
+            /// </summary>
             public K Key => Current.Key;
 
+            /// <summary>
+            /// The value for the current entry
+            /// </summary>
             public V Value => Current.Value;
 
             KeyValuePair<K, V> IEnumerator<KeyValuePair<K, V>>.Current => new KeyValuePair<K, V>(Current.Key, Current.Value);

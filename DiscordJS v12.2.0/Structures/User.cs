@@ -100,7 +100,7 @@ namespace DiscordJS
 
                 return new Presence(Client, new PresenceData()
                 {
-                    user = new PresenceUserData()
+                    user = new UserData()
                     {
                         id = ID
                     }

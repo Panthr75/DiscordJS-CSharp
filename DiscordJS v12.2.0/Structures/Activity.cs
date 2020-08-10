@@ -73,11 +73,17 @@ namespace DiscordJS
         /// </summary>
         public string URL { get; internal set; }
 
-        public readonly Presence presence;
+        /// <inheritdoc/>
+        public Presence Presence { get; }
 
+        /// <summary>
+        /// Instantiates a new Activity
+        /// </summary>
+        /// <param name="presence">The presence that instantiated this</param>
+        /// <param name="data">The data for the activity</param>
         public Activity(Presence presence, ActivityData data)
         {
-            this.presence = presence;
+            Presence = presence;
             Name = data.name;
             Type = (ActivityType)data.type;
             URL = data.url;
@@ -89,13 +95,15 @@ namespace DiscordJS
                 Timestamps = new ActivityTimestamps(data.timestamps.start.HasValue ? new Date(data.timestamps.start.Value) : null,
                     data.timestamps.end.HasValue ? new Date(data.timestamps.end.Value) : null);
             }
-            if (data.party != null) Party = new ActivityParty(new Snowflake(data.party.id), data.party.size);
+            if (data.party != null) Party = new ActivityParty(data.party.id, data.party.size);
             if (data.assets != null) Assets = new RichPresenceAssets(this, data.assets);
             Flags = new ActivityFlags(data.flags);
             Flags.Freeze();
             if (data.emoji != null) Emoji = new Emoji(presence.Client, data.emoji);
             CreatedTimestamp = new Date(data.created_at).GetTime();
         }
+
+        internal Activity _Clone() => MemberwiseClone() as Activity;
 
         /// <summary>
         /// Whether this activity is equal to another activity.

@@ -146,6 +146,7 @@
     <Compile Include="Structures\TextChannel.cs" />
     <Compile Include="Structures\User.cs" />
     <Compile Include="Structures\VoiceChannel.cs" />
+    <Compile Include="Structures\VoiceState.cs" />
     <Compile Include="Structures\Webhook.cs" />
     <Compile Include="Types\ChannelTypes.cs" />
     <Compile Include="Util\DiscordUtil.cs" />

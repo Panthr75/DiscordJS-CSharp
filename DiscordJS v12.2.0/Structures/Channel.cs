@@ -1,5 +1,6 @@
 ﻿using DiscordJS.Data;
 using JavaScript;
+using System;
 
 namespace DiscordJS
 {
@@ -118,7 +119,7 @@ namespace DiscordJS
         {
             return Client.API
                 .Channels(ID)
-                .Delete()
+                .Delete(new { })
                 .Then((_) => this);
         }
 

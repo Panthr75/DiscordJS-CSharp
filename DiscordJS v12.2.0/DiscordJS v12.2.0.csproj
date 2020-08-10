@@ -24,7 +24,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\DiscordJS v12.2.0.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -57,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Client\BaseClient.cs" />
     <Compile Include="Client\Client.cs" />
+    <Compile Include="Client\ClientEvents.cs" />
     <Compile Include="Client\ClientOptions.cs" />
     <Compile Include="Client\Voice\Util\StreamType.cs" />
     <Compile Include="Client\WebsocketOptions.cs" />
@@ -86,6 +88,9 @@
     <Compile Include="JS\Promise\PromiseTimer.cs" />
     <Compile Include="JS\Promise\Promise_NonGeneric.cs" />
     <Compile Include="JS\Promise\Tuple.cs" />
+    <Compile Include="JS\ReadOnly\ReadonlyArray.cs" />
+    <Compile Include="JS\ReadOnly\ReadonlySet.cs" />
+    <Compile Include="JS\Set.cs" />
     <Compile Include="JS\String.cs" />
     <Compile Include="JS\Timeout.cs" />
     <Compile Include="Managers\ChannelManager.cs" />
@@ -93,6 +98,8 @@
     <Compile Include="Managers\GuildManager.cs" />
     <Compile Include="Managers\GuildMemberManager.cs" />
     <Compile Include="Managers\MessageManager.cs" />
+    <Compile Include="Managers\ReactionManager.cs" />
+    <Compile Include="Managers\ReactionUserManager.cs" />
     <Compile Include="Managers\RoleManager.cs" />
     <Compile Include="Packets\DiscordPacket.cs" />
     <Compile Include="Packets\IDiscordPacket.cs" />
@@ -107,6 +114,7 @@
     <Compile Include="Resolvables\GuildResolvable.cs" />
     <Compile Include="Resolvables\IntentsResolvable.cs" />
     <Compile Include="Resolvables\IResolvable.cs" />
+    <Compile Include="Resolvables\MessageReactionResolvable.cs" />
     <Compile Include="Resolvables\MessageResolvable.cs" />
     <Compile Include="Resolvables\OverwriteResolvable.cs" />
     <Compile Include="Resolvables\PermissionResolvable.cs" />
@@ -137,9 +145,11 @@
     <Compile Include="Structures\Invite.cs" />
     <Compile Include="Structures\Message.cs" />
     <Compile Include="Structures\MessageCollector.cs" />
+    <Compile Include="Structures\MessageReaction.cs" />
     <Compile Include="Structures\NewsChannel.cs" />
     <Compile Include="Structures\PermissionOverwrites.cs" />
     <Compile Include="Structures\Presence.cs" />
+    <Compile Include="Structures\ReactionEmoji.cs" />
     <Compile Include="Structures\RichPresenceAssets.cs" />
     <Compile Include="Structures\Role.cs" />
     <Compile Include="Structures\StoreChannel.cs" />
@@ -149,6 +159,7 @@
     <Compile Include="Structures\VoiceState.cs" />
     <Compile Include="Structures\Webhook.cs" />
     <Compile Include="Types\ChannelTypes.cs" />
+    <Compile Include="Types\RateLimitInfo.cs" />
     <Compile Include="Util\DiscordUtil.cs" />
     <Compile Include="Util\IJSONConvertable.cs" />
     <Compile Include="Util\ImageURLOptions.cs" />

@@ -95,6 +95,7 @@
     <Compile Include="JS\Timeout.cs" />
     <Compile Include="Managers\ChannelManager.cs" />
     <Compile Include="Managers\GuildChannelManager.cs" />
+    <Compile Include="Managers\GuildEmojiManager.cs" />
     <Compile Include="Managers\GuildManager.cs" />
     <Compile Include="Managers\GuildMemberManager.cs" />
     <Compile Include="Managers\MessageManager.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Structures\NewsChannel.cs" />
     <Compile Include="Structures\PermissionOverwrites.cs" />
     <Compile Include="Structures\Presence.cs" />
+    <Compile Include="Structures\ReactionCollector.cs" />
     <Compile Include="Structures\ReactionEmoji.cs" />
     <Compile Include="Structures\RichPresenceAssets.cs" />
     <Compile Include="Structures\Role.cs" />
@@ -164,6 +166,7 @@
     <Compile Include="Util\IJSONConvertable.cs" />
     <Compile Include="Util\ImageURLOptions.cs" />
     <Compile Include="Util\Permissions.cs" />
+    <Compile Include="Util\Speaking.cs" />
     <Compile Include="Util\SystemChannelFlags.cs" />
     <Compile Include="Util\TypingInfo.cs" />
     <Compile Include="Util\UserFlags.cs" />
@@ -185,6 +188,7 @@
     <Compile Include="Util\BitField.cs" />
     <Compile Include="Util\Snowflake.cs" />
     <Compile Include="Util\WebhookTypes.cs" />
+    <Compile Include="Util\WSCloseEvent.cs" />
     <Compile Include="Util\WSEventType.cs" />
   </ItemGroup>
   <ItemGroup>

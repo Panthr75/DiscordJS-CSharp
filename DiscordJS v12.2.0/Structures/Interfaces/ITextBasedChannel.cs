@@ -36,6 +36,11 @@ namespace DiscordJS
         MessageManager Messages { get; }
 
         /// <summary>
+        /// The guild for this channel. May be null if the channel that includes this interface is not a <see cref="GuildChannel"/>
+        /// </summary>
+        Guild Guild { get; }
+
+        /// <summary>
         /// The type of the channel, either:
         /// <list type="table">
         /// <item>

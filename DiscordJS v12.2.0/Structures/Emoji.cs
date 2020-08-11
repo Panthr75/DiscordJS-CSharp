@@ -7,7 +7,7 @@ namespace DiscordJS
     /// <summary>
     /// Represents an emoji, see <seealso cref="GuildEmoji"/> and <seealso cref="ReactionEmoji"/>.
     /// </summary>
-    public class Emoji : Base
+    public class Emoji : Base, IHasID
     {
         /// <summary>
         /// Whether this emoji is animated
@@ -90,5 +90,7 @@ namespace DiscordJS
         /// </summary>
         /// <returns></returns>
         public override string ToString() => ID != null ? $"<{(Animated ? "a" : "")}:{ID}>" : Name;
+
+        Snowflake IHasID.ID => ID == null ? (Snowflake)Name : ID;
     }
 }

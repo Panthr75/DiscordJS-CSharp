@@ -42,5 +42,12 @@ namespace DiscordJS
         /// <param name="bits">Bit(s) to read from</param>
         public SystemChannelFlags(SystemChannelFlagsResolvable bits) : base(bits)
         { }
+
+        ///<inheritdoc/>
+        public new SystemChannelFlags Freeze()
+        {
+            base.Freeze();
+            return this;
+        }
     }
 }

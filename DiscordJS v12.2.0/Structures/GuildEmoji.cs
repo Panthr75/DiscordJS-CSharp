@@ -1,4 +1,5 @@
 ﻿using DiscordJS.Data;
+using DiscordJS.Resolvables;
 using JavaScript;
 using System;
 

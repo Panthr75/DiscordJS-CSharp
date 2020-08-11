@@ -1,5 +1,7 @@
 ﻿using JavaScript;
 using System;
+using DiscordJS.Rest;
+using DiscordJS.WebSockets;
 
 namespace DiscordJS
 {
@@ -22,6 +24,26 @@ namespace DiscordJS
         /// All of the guilds the client is currently handling, mapped by their IDs - as long as sharding isn't being used, this will be every guild the bot is a member of
         /// </summary>
         public GuildManager Guilds { get; internal set; }
+
+        /// <summary>
+        /// The options the client was instantiated with
+        /// </summary>
+        public ClientOptions Options { get; internal set; }
+
+        /// <summary>
+        /// Time at which the client was last regarded as being in the READY state (each time the client disconnects and successfully reconnects, this will be overwritten)
+        /// </summary>
+        public Date ReadyAt { get; internal set; }
+
+        /// <summary>
+        /// Timestamp of the time the client was last READY at
+        /// </summary>
+        public long? ReadyTimestamp { get; }
+
+        /// <summary>
+        /// Shard helpers for the client (only if the process was spawned from a ShardingManager)
+        /// </summary>
+        public ShardClientUtil Shard { get; internal set; }
 
         /// <summary>
         /// Authorization token for the logged in bot
@@ -51,6 +73,23 @@ namespace DiscordJS
         /// </summary>
         public WebSocketManager WS { get; internal set; }
 
+        public Client() : this(new ClientOptions())
+        { }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="options">Options for the client</param>
+        public Client(ClientOptions options) : base(options)
+        { 
+            //
+        }
+
+        public async void Login(string token)
+        {
+            //
+        }
+
         /// <summary>
         /// Emitted whenever a channel is created.
         /// </summary>
@@ -75,6 +114,11 @@ namespace DiscordJS
         /// Emitted for general debugging information.
         /// </summary>
         public event DebugEvent Debug;
+
+        internal void EmitDebug(string info)
+        {
+            Debug?.Invoke(info);
+        }
 
         /// <summary>
         /// Emitted whenever a custom emoji is created in a guild.
@@ -161,6 +205,13 @@ namespace DiscordJS
         /// </summary>
         public event InvalidatedEvent Invalidated;
 
+        internal bool EmitInvalidated()
+        {
+            bool result = Invalidated == null;
+            Invalidated?.Invoke();
+            return result;
+        }
+
         /// <summary>
         /// Emitted when an invite is created.
         /// <br/>
@@ -232,6 +283,13 @@ namespace DiscordJS
         /// </summary>
         public event ReadyEvent Ready;
 
+        internal bool EmitReady()
+        {
+            bool result = Ready == null;
+            Ready?.Invoke();
+            return result;
+        }
+
         /// <summary>
         /// Emitted whenever a role is created.
         /// </summary>
@@ -252,20 +310,42 @@ namespace DiscordJS
         /// </summary>
         public event ShardDisconnectEvent ShardDisconnect;
 
+        internal void EmitShardDisconnect(WSCloseEvent ev, int id)
+        {
+            ShardDisconnect?.Invoke(ev, id);
+        }
+
         /// <summary>
         /// Emitted whenever a shard's WebSocket encounters a connection exception.
         /// </summary>
         public event ShardExceptionEvent ShardException;
+
+        internal bool EmitShardException(Exception exception, int id)
+        {
+            var result = ShardException == null;
+            ShardException?.Invoke(exception, id);
+            return result;
+        }
 
         /// <summary>
         /// Emitted when a shard turns ready.
         /// </summary>
         public event ShardReadyEvent ShardReady;
 
+        internal void EmitShardReady(int id, Set<string> unavailableGuilds)
+        {
+            ShardReady?.Invoke(id, unavailableGuilds);
+        }
+
         /// <summary>
         /// Emitted when a shard is attempting to reconnect or re-identify.
         /// </summary>
         public event ShardReconnectingEvent ShardReconnecting;
+
+        internal void EmitShardReconnecting(int id)
+        {
+            ShardReconnecting?.Invoke(id);
+        }
 
         /// <summary>
         /// Emitted when a shard resumes successfully.
@@ -296,22 +376,5 @@ namespace DiscordJS
         /// Emitted whenever a guild text channel has its webhooks changed.
         /// </summary>
         public event WebhookUpdateEvent WebhookUpdate;
-
-        public Client() : this(new ClientOptions())
-        { }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="options">Options for the client</param>
-        public Client(ClientOptions options) : base(options)
-        { 
-            //
-        }
-
-        public async void Login(string token)
-        {
-            //
-        }
     }
 }

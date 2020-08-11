@@ -193,6 +193,21 @@ namespace JavaScript
         public ValueIterator Values() => new ValueIterator(this);
 
         /// <summary>
+        /// Gets the <typeparamref name="T"/> item at index <paramref name="index"/>
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public T this[int index]
+        {
+            get
+            {
+                if (index < 0 || index >= Size)
+                    return default;
+                return values[index];
+            }
+        }
+
+        /// <summary>
         /// Represents the value iterator for this set
         /// </summary>
         [Serializable]

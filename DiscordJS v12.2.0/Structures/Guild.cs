@@ -305,7 +305,7 @@ namespace DiscordJS
         /// <br/>
         /// <info><b>This is only available on guilds with the PUBLIC feature</b></info>
         /// </summary>
-        public TextChannel RulesChannelID { get; internal set; }
+        public Snowflake RulesChannelID { get; internal set; }
 
         /// <summary>
         /// The Shard this Guild belongs to.
@@ -435,7 +435,7 @@ namespace DiscordJS
             Large = data.large.HasValue ? data.large.Value : Large;
             Features = data.features == null ? (Features == null ? new Array<Features>() : Features) : new Array<string>(data.features).Map<Features?>((feature) =>
             {
-                if (Enum.TryParse<Features>(feature, out Features f))
+                if (Enum.TryParse(feature, out Features f))
                     return f;
                 else
                     return null;
@@ -709,7 +709,7 @@ namespace DiscordJS
                     collection.Set(integration.id, new Integration(Client, integration, this));
                     return collection;
                 }, new Collection<Snowflake, Integration>());
-            })
+            });
         }
 
         /// <summary>

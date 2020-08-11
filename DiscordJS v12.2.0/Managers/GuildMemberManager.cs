@@ -184,7 +184,7 @@ namespace DiscordJS
         /// If <see langword="null"/>, fetches all members.<br/>
         /// If a query, it limits the results to users with similar usernames.</param>
         /// <returns></returns>
-        public IPromise<GuildMember[]> Fetch(FetchMembersOptions options)
+        public IPromise<GuildMember[]> Fetch(FetchMembersOptions options = null)
         {
             if (options == null) return _FetchMany();
             if (options.user != null)

@@ -10,7 +10,7 @@ namespace DiscordJS
         /// <summary>
         /// ID of the shard to run, or an array of shard IDs. If not specified, the client will spawn ClientOptions#shardCount shards. If set to auto, it will fetch the recommended amount of shards from Discord and spawn that amount
         /// </summary>
-        public object shards; // number | Array<number> | string
+        public Array<int> shards; // number | Array<number> | string
 
         /// <summary>
         /// The total amount of shards used by all processes of this bot (e.g. recommended shard count, shard count of the ShardingManager)

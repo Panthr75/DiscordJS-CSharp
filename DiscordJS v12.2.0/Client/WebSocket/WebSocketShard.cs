@@ -339,7 +339,7 @@ namespace DiscordJS.WebSockets
                     }
                     break;
 
-#warning Implement WebSocketShard starting at CheckReady
+//#warning Implement WebSocketShard starting at CheckReady
             }
         }
 

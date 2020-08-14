@@ -23,12 +23,12 @@ namespace DiscordJS
         /// <summary>
         /// One of 16, 32, 64, 128, 256, 512, 1024, 2048, 4096
         /// </summary>
-        public readonly int size;
+        public readonly int? size;
 
-        public ImageURLOptions() : this("webp", false, 512)
+        public ImageURLOptions() : this("webp", false, null)
         { }
 
-        public ImageURLOptions(string format, bool dynamic, int size)
+        public ImageURLOptions(string format, bool dynamic, int? size)
         {
             this.dynamic = dynamic;
             bool setFormat = false, setSize = false;

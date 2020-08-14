@@ -1,4 +1,5 @@
 ﻿using JavaScript;
+using DiscordJS.Data;
 
 namespace DiscordJS
 {
@@ -81,5 +82,15 @@ namespace DiscordJS
         /// Presence data to use upon login
         /// </summary>
         public PresenceData presence;
+
+        /// <summary>
+        /// Options for the WebSocket
+        /// </summary>
+        public WebsocketOptions ws;
+
+        /// <summary>
+        /// HTTP options
+        /// </summary>
+        public HTTPOptions http;
     }
 }

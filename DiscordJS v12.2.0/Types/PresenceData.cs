@@ -5,6 +5,7 @@ namespace DiscordJS.Data
     /// <summary>
     /// Data resembling a raw Discord presence.
     /// </summary>
+    [Data]
     public class PresenceData
     {
         /// <summary>
@@ -62,6 +63,7 @@ namespace DiscordJS.Data
     /// <summary>
     /// Active sessions are indicated with an "online", "idle", or "dnd" string per platform.
     /// </summary>
+    [Data]
     public class ClientStatusData
     {
         /// <summary>

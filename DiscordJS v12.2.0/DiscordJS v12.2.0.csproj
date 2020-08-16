@@ -59,6 +59,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\Actions\ActionsManager.cs" />
+    <Compile Include="Client\Actions\ChannelCreateAction.cs" />
+    <Compile Include="Client\Actions\ChannelDeleteAction.cs" />
+    <Compile Include="Client\Actions\ChannelUpdateAction.cs" />
+    <Compile Include="Client\Actions\GenericAction.cs" />
+    <Compile Include="Client\Actions\GuildBanRemoveAction.cs" />
+    <Compile Include="Client\Actions\GuildChannelsPositionUpdateAction.cs" />
+    <Compile Include="Client\Actions\MessageUpdateAction.cs" />
+    <Compile Include="Client\Actions\PresenceUpdateAction.cs" />
+    <Compile Include="Client\Actions\UserUpdateAction.cs" />
+    <Compile Include="Client\Actions\VoiceStateUpdateAction.cs" />
+    <Compile Include="Client\Actions\WebhooksUpdateAction.cs" />
     <Compile Include="Client\BaseClient.cs" />
     <Compile Include="Client\Client.cs" />
     <Compile Include="Client\ClientEvents.cs" />
@@ -72,10 +84,14 @@
     <Compile Include="Client\WebSocket\WebSocketShard.cs" />
     <Compile Include="Data\ActivityData.cs" />
     <Compile Include="Data\AssetData.cs" />
+    <Compile Include="Data\Attributes\NotDataAttribute.cs" />
     <Compile Include="Data\AuditLogData.cs" />
     <Compile Include="Data\BotGatewayData.cs" />
     <Compile Include="Data\ChannelData.cs" />
+    <Compile Include="Data\Attributes\DataAttribute.cs" />
     <Compile Include="Data\EmojiData.cs" />
+    <Compile Include="Data\GuildBanData.cs" />
+    <Compile Include="Data\GuildChannelPositionData.cs" />
     <Compile Include="Data\GuildData.cs" />
     <Compile Include="Data\GuildMemberData.cs" />
     <Compile Include="Data\InviteData.cs" />
@@ -84,6 +100,8 @@
     <Compile Include="Data\RoleData.cs" />
     <Compile Include="Data\UserData.cs" />
     <Compile Include="Data\VoiceStateData.cs" />
+    <Compile Include="Data\PresenceUpdateData.cs" />
+    <Compile Include="Data\WebhookUpdateData.cs" />
     <Compile Include="Errors\DJSError.cs" />
     <Compile Include="JS\Array.cs" />
     <Compile Include="JS\ArrayBuffer.cs" />
@@ -91,12 +109,18 @@
     <Compile Include="JS\FetchAPI\Blob.cs" />
     <Compile Include="JS\FetchAPI\Body.cs" />
     <Compile Include="JS\FetchAPI\FetchAPI.cs" />
+    <Compile Include="JS\FetchAPI\File.cs" />
+    <Compile Include="JS\FetchAPI\FormData.cs" />
     <Compile Include="JS\FetchAPI\Headers.cs" />
     <Compile Include="JS\FetchAPI\HeadersInit.cs" />
     <Compile Include="JS\FetchAPI\Request.cs" />
     <Compile Include="JS\FetchAPI\RequestInit.cs" />
     <Compile Include="JS\FetchAPI\Response.cs" />
     <Compile Include="JS\FetchAPI\ResponseInit.cs" />
+    <Compile Include="JS\FetchAPI\Utils\HttpContentParser.cs" />
+    <Compile Include="JS\FetchAPI\Utils\HttpMultipartParser.cs" />
+    <Compile Include="JS\FetchAPI\Utils\Misc.cs" />
+    <Compile Include="JS\Interfaces\IMap.cs" />
     <Compile Include="JS\Iterator.cs" />
     <Compile Include="JS\Immediate.cs" />
     <Compile Include="JS\Map.cs" />
@@ -202,6 +226,7 @@
     <Compile Include="Util\DiscordUtil.cs" />
     <Compile Include="Util\IJSONConvertable.cs" />
     <Compile Include="Util\ImageURLOptions.cs" />
+    <Compile Include="Util\LimitedCollection.cs" />
     <Compile Include="Util\Permissions.cs" />
     <Compile Include="Util\Speaking.cs" />
     <Compile Include="Util\SystemChannelFlags.cs" />

@@ -185,7 +185,7 @@ namespace DiscordJS
         /// <summary>
         /// The previous versions of the message, sorted with the most recent first
         /// </summary>
-        Array<Message> _edits;
+        internal Array<Message> _edits;
 
         /// <summary>
         /// Instantiates a new Message Object

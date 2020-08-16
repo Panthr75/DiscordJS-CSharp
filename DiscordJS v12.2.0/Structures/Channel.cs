@@ -134,5 +134,28 @@ namespace DiscordJS
         /// </summary>
         /// <returns></returns>
         public override string ToString() => $"<#{ID}>";
+
+        internal static Channel Create(ChannelData data, Client client, Guild guild = null)
+        {
+            switch ((ChannelTypes)data.type)
+            {
+                case ChannelTypes.CATEGORY:
+                    return new CategoryChannel(guild, data);
+                case ChannelTypes.DM:
+                    return new DMChannel(client, data);
+                case ChannelTypes.GROUP:
+                    return null;
+                case ChannelTypes.NEWS:
+                    return new NewsChannel(guild, data);
+                case ChannelTypes.STORE:
+                    return new StoreChannel(guild, data);
+                case ChannelTypes.TEXT:
+                    return new TextChannel(guild, data);
+                case ChannelTypes.VOICE:
+                    return new VoiceChannel(guild, data);
+                default:
+                    return null;
+            }
+        }
     }
 }

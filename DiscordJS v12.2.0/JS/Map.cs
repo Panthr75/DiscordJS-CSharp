@@ -139,7 +139,7 @@ namespace JavaScript
         /// <summary>
         /// Gets a value for a specified 
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="key">The key to use to get the value</param>
         /// <returns></returns>
         public V Get(K key)
         {

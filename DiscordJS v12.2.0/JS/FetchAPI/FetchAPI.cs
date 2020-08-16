@@ -11,7 +11,14 @@ namespace JavaScript.Web
             var req = new Request(url, options);
             return new Promise<HttpWebResponse>(async (resolve, reject) =>
             {
-                resolve((HttpWebResponse)await req.request.GetResponseAsync());
+                try
+                {
+                    resolve((HttpWebResponse)await req.request.GetResponseAsync());
+                }
+                catch(WebException exception)
+                {
+                    reject(exception);
+                }
             }).Then((res) =>
             {
                 var headerInit = new HeadersInit();

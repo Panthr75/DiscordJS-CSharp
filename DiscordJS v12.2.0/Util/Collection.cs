@@ -19,6 +19,15 @@ namespace DiscordJS
         /// </summary>
         private Array<K> _keyArray;
 
+        /// <summary>
+        /// Instantiates a new Collection
+        /// </summary>
+        public Collection()
+        {
+            _array = null;
+            _keyArray = null;
+        }
+
         /// <inheritdoc/>
         public new V Get(K key) => base.Get(key);
 
@@ -30,7 +39,7 @@ namespace DiscordJS
         /// <param name="key">The key of the element to add</param>
         /// <param name="value">The value of the element to add</param>
         /// <returns></returns>
-        public new Collection<K, V> Set(K key, V value)
+        public new virtual Collection<K, V> Set(K key, V value)
         {
             _keyArray = null;
             _array = null;

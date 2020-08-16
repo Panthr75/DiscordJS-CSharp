@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using JavaScript.Web.Utils;
+using Newtonsoft.Json;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -15,6 +16,15 @@ namespace JavaScript.Web
 
         }
 
+        internal Body(string contentType, Stream stream)
+        {
+            this.contentType = contentType;
+            this.stream = stream;
+        }
+
+        private readonly string contentType;
+        private readonly Stream stream;
+
         internal bool bodyUsed = false;
 
         /// <summary>
@@ -27,7 +37,8 @@ namespace JavaScript.Web
         /// </summary>
         public virtual Stream GetBody()
         {
-            return null;
+            bodyUsed = true;
+            return stream;
         }
 
         private IPromise<byte[]> GetBytes()
@@ -47,7 +58,19 @@ namespace JavaScript.Web
         /// <returns></returns>
         public IPromise<ArrayBuffer> ArrayBuffer()
         {
-            throw new System.NotImplementedException();
+            return GetBytes().Then<ArrayBuffer>((buffer) =>
+            {
+                try
+                {
+                    ArrayBuffer b = new ArrayBuffer();
+                    b.contents = buffer;
+                    return b;
+                }
+                catch(System.Exception ex)
+                {
+                    throw new System.Exception("Could not convert to array buffer", ex);
+                }
+            });
         }
 
         /// <summary>
@@ -68,7 +91,37 @@ namespace JavaScript.Web
         /// <returns></returns>
         public IPromise<FormData> FormData()
         {
-            //
+            return new Promise<FormData>((resolve, reject) =>
+            {
+                GetBytes().Then((data) =>
+                {
+                    if (contentType.Contains("application/x-www-form-urlencoded"))
+                    {
+                        HttpContentParser parser = new HttpContentParser(data);
+                        if (parser.Success)
+                        {
+                            FormData result = new FormData(parser.Parameters);
+                            resolve(result);
+                        }
+                        else
+                            reject(new System.Exception("Parsing failed"));
+                    }
+                    else if (contentType.Contains("multipart/form-data"))
+                    {
+                        HttpMultipartParser parser = new HttpMultipartParser(data, "file");
+                        if (parser.Success)
+                        {
+                            FormData result = new FormData(parser.Parameters);
+                            result.Append(parser.Filename, new File(parser.FileContents, parser.Filename));
+                            resolve(result);
+                        }
+                        else
+                            reject(new System.Exception("Parsing failed"));
+                    }
+                    else
+                        reject(new System.Exception("The content type of this body does not contain form data"));
+                });
+            });
         }
 
         /// <summary>

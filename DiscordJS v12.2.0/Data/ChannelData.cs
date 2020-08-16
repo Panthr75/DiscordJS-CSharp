@@ -1,5 +1,9 @@
-﻿namespace DiscordJS.Data
+﻿using Newtonsoft.Json;
+using System;
+
+namespace DiscordJS.Data
 {
+    [Data]
     public sealed class ChannelData
     {
         public string id;
@@ -21,5 +25,8 @@
         public string parent_id;
         public long? last_pin_timestamp;
         public bool? lock_permissions;
+        [JsonIgnore]
+        [NotData]
+        internal Guild guild;
     }
 }

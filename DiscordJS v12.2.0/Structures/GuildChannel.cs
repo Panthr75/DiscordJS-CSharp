@@ -341,7 +341,10 @@ namespace DiscordJS
             {
                 promise = DiscordUtil.SetPosition(this, data.position.Value, false, Guild._SortedChannels(this), Client.API.Guilds(Guild.ID).Channels(), reason).Then((updatedChannels) =>
                 {
-                    Client.Actions.GuildChannelsPositionUpdate.Handle(Guild.ID, updatedChannels);
+                    Client.Actions.GuildChannelsPositionUpdate.Handle(new GuildChannelPositionData() {
+                        guild_id = Guild.ID, 
+                        channels = updatedChannels.Map((c) => (ChannelData)c).ToArray()
+                    });
                     return null;
                 });
             }
@@ -565,7 +568,11 @@ namespace DiscordJS
         {
             return DiscordUtil.SetPosition(this, position, relative, Guild._SortedChannels(this), Client.API.Guilds(Guild.ID).Channels(), reason).Then((updatedChannels) =>
             {
-                Client.Actions.GuildChannelsPositionUpdate.Handle(Guild.ID, updatedChannels);
+                Client.Actions.GuildChannelsPositionUpdate.Handle(new GuildChannelPositionData()
+                {
+                    guild_id = Guild.ID,
+                    channels = updatedChannels.Map((c) => (ChannelData)c).ToArray()
+                });
                 return this;
             });
         }

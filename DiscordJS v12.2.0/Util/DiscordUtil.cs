@@ -669,6 +669,75 @@ namespace DiscordJS
             });
         }
 
+        internal static T FromDynamic<T>(dynamic value) where T : new()
+        {
+            if (value is null) return default;
+            else if (value is T already) return already;
+            Type tType = typeof(T);
+            Type dataAttrType = typeof(DataAttribute);
+            Type notDataAttrType = typeof(NotDataAttribute);
+            bool assumeData = Attribute.IsDefined(tType, dataAttrType);
+            return CreateDataFromDynamic<T>(tType, dataAttrType, notDataAttrType, assumeData, value);
+        }
+
+        private static T CreateDataFromDynamic<T>(Type tType, Type dataAttrType, Type notDataAttrType, bool assumeData, dynamic value) where T : new()
+        {
+            if (Attribute.IsDefined(tType, notDataAttrType)) return default;
+            else if (value is null) return default;
+            else if (value is T already) return already;
+            else
+            {
+                try
+                {
+                    T result = new T();
+                    Type valueType = value.GetType();
+                    var properties = tType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                    for (int index = 0, length = properties.Length; index < length; index++)
+                    {
+                        var prop = properties[index];
+                        bool valid = assumeData ?
+                            !Attribute.IsDefined(prop, notDataAttrType) :
+                            Attribute.IsDefined(prop, dataAttrType);
+
+                        if (valid)
+                        {
+                            prop.SetValue(result, valueType.GetProperty(prop.Name, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance).GetValue(value));
+                        }
+                    }
+                    return result;
+                }
+                catch (Exception)
+                {
+                    return default;
+                }
+            }
+        }
+
+        internal static T[] ArrayFromDynamic<T>(dynamic value) where T : new()
+        {
+            if (value is null) return null;
+            else if (value is T[] alreadyArray) return alreadyArray;
+            Type tType = typeof(T);
+            Type dataAttrType = typeof(DataAttribute);
+            Type notDataAttrType = typeof(NotDataAttribute);
+            bool assumeData = Attribute.IsDefined(tType, dataAttrType);
+            try
+            {
+                int length = value.Length;
+                T[] result = new T[length];
+                for (int index = 0; index < length; index++)
+                {
+                    dynamic val = value[index];
+                    result[index] = CreateDataFromDynamic<T>(tType, dataAttrType, notDataAttrType, assumeData, val);
+                }
+                return result;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         private static Regex EscapeCodeBlockRegex { get; }
         private static Regex EscapeInlineCodeRegex { get; }
         private static Regex EscapeItalicRegexA { get; }
@@ -735,5 +804,11 @@ namespace DiscordJS
             this.id = id;
             this.position = position;
         }
+
+        public static implicit operator ChannelData(ItemWithPositionAndID item) => item == null ? null : new ChannelData()
+        {
+            id = item.id,
+            position = item.position
+        };
     }
 }

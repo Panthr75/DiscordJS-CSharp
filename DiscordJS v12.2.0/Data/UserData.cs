@@ -1,5 +1,6 @@
 ﻿namespace DiscordJS.Data
 {
+    [Data]
     public class UserData
     {
         public string id;

@@ -24,6 +24,7 @@ namespace DiscordJS
             return item;
         }
 
+#warning Implement GuildEmojiManager#Add
 #warning Implement GuildEmojiManager#Create
 #warning Implement GuildEmojiManager#Resolve
 #warning Implement GuildEmojiManager#ResolveID

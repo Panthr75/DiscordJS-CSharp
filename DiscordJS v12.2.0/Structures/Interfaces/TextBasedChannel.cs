@@ -131,7 +131,7 @@ namespace DiscordJS
             {
                 return client.API.Channels(id).Messages().BulkDelete().Post(new { data = new { messages = messageIds.ToArray() } }).Then((_) =>
                 {
-                    return messageIds.Reduce((col, msgId) => col.Set(msgId, client.Actions.MessageDeleteBulk.GetMessage(msgId, channel)), new Collection<Snowflake, Message>());
+                    return messageIds.Reduce((col, msgId) => col.Set(msgId, (Message)client.Actions.MessageDeleteBulk.GetMessage(msgId, channel)), new Collection<Snowflake, Message>());
                 });
             }
         }

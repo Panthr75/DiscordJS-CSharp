@@ -54,7 +54,7 @@ namespace DiscordJS
         /// <returns></returns>
         public bool Has(BitFieldResolvable bit)
         {
-            if (bit.isArray)
+            if (bit.type == BitFieldResolvable.Type.Array)
             {
                 Array<BitFieldResolvable> bits = new Array<BitFieldResolvable>(bit.array);
                 Func<BitFieldResolvable, bool> fn = (p) => Has(p);

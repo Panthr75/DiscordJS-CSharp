@@ -52,19 +52,14 @@ namespace DiscordJS
         /// </summary>
         /// <param name="user">The UserResolvable to identify</param>
         /// <returns></returns>
-        public User Resolve(UserResolvable user) => user.Resolve(this);
+        public User Resolve(UserResolvable user) => user == null ? null : user.Resolve(this);
 
         /// <summary>
         /// Resolves a UserResolvable to a user ID string.
         /// </summary>
         /// <param name="user">The UserResolvable to identify</param>
         /// <returns></returns>
-        public Snowflake ResolveID(UserResolvable user)
-        {
-            var u = user.Resolve(this);
-            if (u != null) return u.ID;
-            return null;
-        }
+        public Snowflake ResolveID(UserResolvable user) => user == null ? null : user.ResolveID();
 
         /// <summary>
         /// Obtains a user from Discord, or the user cache if it's already available.

@@ -7,7 +7,7 @@ namespace DiscordJS
     /// <summary>
     /// Represents a user's presence.
     /// </summary>
-    public class Presence : IEquatable<Presence>
+    public class Presence : IEquatable<Presence>, IHasID
     {
         /// <summary>
         /// The activities of this presence
@@ -126,6 +126,8 @@ namespace DiscordJS
                 ClientStatus.Mobile == presence.ClientStatus.Mobile &&
                 ClientStatus.Desktop == presence.ClientStatus.Desktop);
         }
+
+        Snowflake IHasID.ID => UserID;
     }
 
     /// <summary>

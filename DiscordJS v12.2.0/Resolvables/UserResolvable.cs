@@ -1,4 +1,6 @@
-﻿namespace DiscordJS.Resolvables
+﻿using System;
+
+namespace DiscordJS.Resolvables
 {
     /// <summary>
     /// Data that resolves to give a User object. This can be:
@@ -9,80 +11,78 @@
     /// <item>A GuildMember object</item>
     /// </list>
     /// </summary>
-    public class UserResolvable : IResolvable<UserManager, User>, IHasID
+    public class UserResolvable
     {
-        /// <summary>
-        /// The ID of this user. Is not set until it is resolved
-        /// </summary>
-        public Snowflake ID => User == null ? null : User.ID;
-
-        /// <summary>
-        /// The user this user resolvable references. Is not set until it is resolved
-        /// </summary>
-        public User User { get; internal set; }
-
-        internal bool isUser = false;
-        internal bool isSnowflake = false;
-        internal bool isMessage = false;
-        internal bool isGuildMember = false;
-        internal User user;
-        internal Snowflake snowflake;
-        internal Message message;
-        internal GuildMember member;
-
-        /// <summary>
-        /// Resolves this resolvable using the given user manager.
-        /// <br/>
-        /// <br/>
-        /// <info><b>This will update <see cref="DiscordJS.User"/> if the user is resolved</b></info>
-        /// </summary>
-        /// <param name="manager">The user manager to use</param>
-        /// <returns>A <see cref="DiscordJS.User"/>, or <see langword="null"/> if no user was found.</returns>
-        public User Resolve(UserManager manager)
+        internal enum Type
         {
-            User result;
-            if (isUser)
-                result = user;
-            else if (isSnowflake)
-                result = manager.Cache.Get(snowflake);
-            else if (isMessage)
-                result = message.Author;
-            else if (isGuildMember)
-                result = member.User;
-            else
-                result = null;
-
-            if (result != null) User = result;
-            return result;
+            User,
+            Message,
+            GuildMember,
+            Snowflake
         }
 
-        public UserResolvable(Snowflake snowflake)
+        internal readonly Type type;
+
+        internal readonly User user;
+        internal readonly Snowflake snowflake;
+        internal readonly Message message;
+        internal readonly GuildMember member;
+
+        internal User Resolve(UserManager manager)
         {
-            isSnowflake = true;
+            if (type == Type.User)
+                return user;
+            else if (type == Type.Message)
+                return message.Author;
+            else if (type == Type.GuildMember)
+                return member.User;
+            else if (type == Type.Snowflake)
+                return manager.Cache.Get(snowflake);
+            else
+                throw new ArgumentException("The given type can't be cast to this resolvable");
+        }
+
+        internal Snowflake ResolveID()
+        {
+            if (type == Type.User)
+                return user.ID;
+            else if (type == Type.Message)
+                return message.Author.ID;
+            else if (type == Type.GuildMember)
+                return member.User.ID;
+            else if (type == Type.Snowflake)
+                return snowflake;
+            else
+                throw new ArgumentException("The given type can't be cast to this resolvable");
+        }
+
+        private UserResolvable(Snowflake snowflake)
+        {
+            type = Type.Snowflake;
             this.snowflake = snowflake;
         }
 
-        public UserResolvable(string str) : this((Snowflake)str)
+        private UserResolvable(string str) : this((Snowflake)str)
         { }
 
-        public UserResolvable(JavaScript.String str) : this((Snowflake)str)
+        private UserResolvable(JavaScript.String str) : this((Snowflake)str)
         { }
 
-        public UserResolvable(Message message)
+        private UserResolvable(Message message)
         {
-            isMessage = true;
+            type = Type.Message;
             this.message = message;
         }
 
-        public UserResolvable(GuildMember member)
+        private UserResolvable(GuildMember member)
         {
-            isGuildMember = true;
+            type = Type.GuildMember;
             this.member = member;
         }
 
-        public UserResolvable(User user)
+        private UserResolvable(User user)
         {
-            isUser = true;
+            type = Type.User;
             this.user = user;
         }
 

@@ -169,7 +169,7 @@ namespace DiscordJS
             get
             {
                 var member = Members.Cache.Get(Client.User.ID);
-                if (member == null) return Client.Options.Partials.Includes(PartialType.GUILD_MEMBER) ? Members.Add(new GuildMemberData()
+                if (member == null) return Client.Options.partials.Includes(PartialType.GUILD_MEMBER) ? Members.Add(new GuildMemberData()
                 {
                     user = new UserData()
                     {
@@ -213,7 +213,7 @@ namespace DiscordJS
             get
             {
                 var member = Members.Cache.Get(OwnerID);
-                if (member == null) return Client.Options.Partials.Includes(PartialType.GUILD_MEMBER) ? Members.Add(new GuildMemberData()
+                if (member == null) return Client.Options.partials.Includes(PartialType.GUILD_MEMBER) ? Members.Add(new GuildMemberData()
                 {
                     user = new UserData()
                     {
